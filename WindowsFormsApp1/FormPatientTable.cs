@@ -321,7 +321,7 @@ namespace WindowsFormsApp1
 			this.editee.disassemble(fieldList);
 			this.preventSetEditeeModified = false;
 
-			this.textBoxDataID.Text = item.id.ToString();
+			this.textBoxDataID.Text = item.id != ulong.MaxValue ? item.id.ToString() : "";
 
 			this.setDataFieldsEnabled(true);
 			this.setEditeeModified(false);
@@ -349,7 +349,10 @@ namespace WindowsFormsApp1
                 this.editeeID = currentItem.id = this.data.newPatientID();
                 this.textBoxDataID.Text = currentItem.id.ToString();
                 this.data.tablePatients.Add(this.editeeID, this.editee);
+				this.data.tablePatientsToUSPs.Add(this.editeeID, new List<ulong>());
             }
+
+			this.data.dataModified = true;
 
             this.rebuildCurrentTableSlice();
             this.displayCurrentTable();

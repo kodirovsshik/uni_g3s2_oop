@@ -12,18 +12,19 @@ namespace WindowsFormsApp1
 	{
 		public SerializableDictionary<ulong, Patient> tablePatients;
 		public SerializableDictionary<ulong, USP> tableUSPs;
-		public SerializableDictionary<ulong, ulong[]> tablePatientsToUSPs;
+		public SerializableDictionary<ulong, List<ulong>> tablePatientsToUSPs;
 
 		public bool dataModified;
 		public string currentFilePath;
 
-		public ulong maxID = 0;
+		public ulong maxPatientID = 0;
+		public ulong maxProcedureID = 0;
 
 		public DataStore()
 		{
 			this.tablePatients = new SerializableDictionary<ulong, Patient>();
 			this.tableUSPs = new SerializableDictionary<ulong, USP>();
-			this.tablePatientsToUSPs = new SerializableDictionary<ulong, ulong[]>();
+			this.tablePatientsToUSPs = new SerializableDictionary<ulong, List<ulong>>();
 
 			this.dataModified = false;
 			this.currentFilePath = "";
@@ -31,7 +32,11 @@ namespace WindowsFormsApp1
 
 		public ulong newPatientID()
 		{
-			return ++this.maxID;
+			return ++this.maxPatientID;
+		}
+		public ulong newProcedureID()
+		{
+			return ++this.maxProcedureID;
 		}
 	}
 

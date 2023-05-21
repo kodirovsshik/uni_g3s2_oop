@@ -6,16 +6,13 @@ using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-	public enum USPType : byte
-	{
-		na = 0,
-	}
-
 	[Serializable]
 	public class USP
 	{
         public ulong patientId;
-        public USPType type;
+        public int type;
+        public int kind;
 		public DateTime procedureDate;
+		public string dataFile;
 	}
 }

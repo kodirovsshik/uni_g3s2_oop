@@ -70,7 +70,7 @@
             this.listBoxPatients.Location = new System.Drawing.Point(12, 184);
             this.listBoxPatients.Name = "listBoxPatients";
             this.listBoxPatients.Size = new System.Drawing.Size(279, 276);
-            this.listBoxPatients.TabIndex = 0;
+            this.listBoxPatients.TabIndex = 4;
             this.listBoxPatients.SelectedIndexChanged += new System.EventHandler(this.listBoxPatients_SelectedIndexChanged);
             // 
             // buttonAdd
@@ -79,7 +79,7 @@
             this.buttonAdd.Location = new System.Drawing.Point(23, 475);
             this.buttonAdd.Name = "buttonAdd";
             this.buttonAdd.Size = new System.Drawing.Size(115, 30);
-            this.buttonAdd.TabIndex = 1;
+            this.buttonAdd.TabIndex = 5;
             this.buttonAdd.Text = "Добавить";
             this.buttonAdd.UseVisualStyleBackColor = true;
             this.buttonAdd.Click += new System.EventHandler(this.buttonAdd_Click);
@@ -99,7 +99,7 @@
             this.textBoxSearchFIO.Location = new System.Drawing.Point(12, 33);
             this.textBoxSearchFIO.Name = "textBoxSearchFIO";
             this.textBoxSearchFIO.Size = new System.Drawing.Size(279, 20);
-            this.textBoxSearchFIO.TabIndex = 3;
+            this.textBoxSearchFIO.TabIndex = 1;
             this.textBoxSearchFIO.EnabledChanged += new System.EventHandler(this.textBoxSearchFIO_EnabledChanged);
             this.textBoxSearchFIO.TextChanged += new System.EventHandler(this.textBoxSearchFIO_TextChanged);
             // 
@@ -120,7 +120,7 @@
             this.buttonDelete.Location = new System.Drawing.Point(159, 475);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(115, 30);
-            this.buttonDelete.TabIndex = 5;
+            this.buttonDelete.TabIndex = 6;
             this.buttonDelete.Text = "Удалить";
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
@@ -255,7 +255,7 @@
             0});
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(54, 20);
-            this.numericUpDown1.TabIndex = 18;
+            this.numericUpDown1.TabIndex = 10;
             this.numericUpDown1.Value = new decimal(new int[] {
             1,
             0,
@@ -284,7 +284,7 @@
             this.comboBoxDBM.Location = new System.Drawing.Point(399, 200);
             this.comboBoxDBM.Name = "comboBoxDBM";
             this.comboBoxDBM.Size = new System.Drawing.Size(106, 21);
-            this.comboBoxDBM.TabIndex = 19;
+            this.comboBoxDBM.TabIndex = 11;
             this.comboBoxDBM.SelectedIndexChanged += new System.EventHandler(this.comboBoxDBM_SelectedIndexChanged);
             // 
             // textBoxDataY
@@ -293,7 +293,7 @@
             this.textBoxDataY.Location = new System.Drawing.Point(525, 200);
             this.textBoxDataY.Name = "textBoxDataY";
             this.textBoxDataY.Size = new System.Drawing.Size(67, 20);
-            this.textBoxDataY.TabIndex = 20;
+            this.textBoxDataY.TabIndex = 12;
             this.textBoxDataY.TextChanged += new System.EventHandler(this.textBoxDataY_TextChanged);
             // 
             // label4
@@ -311,7 +311,7 @@
             this.textBoxSearchPatientID.Location = new System.Drawing.Point(23, 116);
             this.textBoxSearchPatientID.Name = "textBoxSearchPatientID";
             this.textBoxSearchPatientID.Size = new System.Drawing.Size(100, 20);
-            this.textBoxSearchPatientID.TabIndex = 22;
+            this.textBoxSearchPatientID.TabIndex = 2;
             this.textBoxSearchPatientID.TextChanged += new System.EventHandler(this.textBoxSearchPatientID_TextChanged);
             // 
             // textBoxDataID
@@ -320,7 +320,8 @@
             this.textBoxDataID.Location = new System.Drawing.Point(492, 272);
             this.textBoxDataID.Name = "textBoxDataID";
             this.textBoxDataID.Size = new System.Drawing.Size(100, 20);
-            this.textBoxDataID.TabIndex = 23;
+            this.textBoxDataID.TabIndex = 0;
+            this.textBoxDataID.TabStop = false;
             // 
             // labelID
             // 
@@ -340,7 +341,7 @@
             this.buttonSave.Location = new System.Drawing.Point(305, 475);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(167, 30);
-            this.buttonSave.TabIndex = 25;
+            this.buttonSave.TabIndex = 14;
             this.buttonSave.Text = "Сохранить изменения";
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
@@ -352,7 +353,7 @@
             this.buttonRollback.Location = new System.Drawing.Point(485, 475);
             this.buttonRollback.Name = "buttonRollback";
             this.buttonRollback.Size = new System.Drawing.Size(167, 30);
-            this.buttonRollback.TabIndex = 26;
+            this.buttonRollback.TabIndex = 15;
             this.buttonRollback.Text = "Сбросить изменения";
             this.buttonRollback.UseVisualStyleBackColor = true;
             this.buttonRollback.Click += new System.EventHandler(this.buttonRollback_Click);
@@ -367,7 +368,7 @@
             this.comboBoxGender.Location = new System.Drawing.Point(325, 271);
             this.comboBoxGender.Name = "comboBoxGender";
             this.comboBoxGender.Size = new System.Drawing.Size(121, 21);
-            this.comboBoxGender.TabIndex = 27;
+            this.comboBoxGender.TabIndex = 13;
             this.comboBoxGender.SelectedIndexChanged += new System.EventHandler(this.comboBoxGender_SelectedIndexChanged);
             // 
             // labelGender
@@ -396,7 +397,7 @@
             this.textBoxSearchProcedureID.Location = new System.Drawing.Point(159, 116);
             this.textBoxSearchProcedureID.Name = "textBoxSearchProcedureID";
             this.textBoxSearchProcedureID.Size = new System.Drawing.Size(100, 20);
-            this.textBoxSearchProcedureID.TabIndex = 30;
+            this.textBoxSearchProcedureID.TabIndex = 3;
             this.textBoxSearchProcedureID.TextChanged += new System.EventHandler(this.textBoxSearchProcedureID_TextChanged);
             // 
             // label8
