@@ -76,6 +76,9 @@
     <EmbeddedResource Include="FormPatientTable.resx">
       <DependentUpon>FormPatientTable.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormProcedureTable.resx">
+      <DependentUpon>FormProcedureTable.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -100,6 +103,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="todo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
