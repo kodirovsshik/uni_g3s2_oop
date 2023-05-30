@@ -11,7 +11,7 @@ namespace WindowsFormsApp1
 	public class DataStore
 	{
 		public SerializableDictionary<ulong, Patient> tablePatients;
-		public SerializableDictionary<ulong, USP> tableUSPs;
+		public SerializableDictionary<ulong, USP> tableProcedures;
 		public SerializableDictionary<ulong, List<ulong>> tablePatientsToUSPs;
 
 		public bool dataModified;
@@ -23,7 +23,7 @@ namespace WindowsFormsApp1
 		public DataStore()
 		{
 			this.tablePatients = new SerializableDictionary<ulong, Patient>();
-			this.tableUSPs = new SerializableDictionary<ulong, USP>();
+			this.tableProcedures = new SerializableDictionary<ulong, USP>();
 			this.tablePatientsToUSPs = new SerializableDictionary<ulong, List<ulong>>();
 
 			this.dataModified = false;

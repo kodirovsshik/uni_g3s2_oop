@@ -55,9 +55,9 @@ namespace WindowsFormsApp1
 
         public void assemble(FieldList fields)
 		{
-			this.f = ((TextBox)fields[0]).Text;
-			this.i = ((TextBox)fields[1]).Text;
-			this.o = ((TextBox)fields[2]).Text;
+			string f = ((TextBox)fields[0]).Text;
+            string i = ((TextBox)fields[1]).Text;
+            string o = ((TextBox)fields[2]).Text;
 
 			int y;
 			try
@@ -69,26 +69,40 @@ namespace WindowsFormsApp1
 				throw new Exception("Некорректный год");
 			}
 
+			DateTime date;
 			try
             {
-                this.birthdate = new DateTime(
+                date = new DateTime(
                     y,
                     getFLMember.asComboBox(fields, 4).SelectedIndex + 1,
                     (int)getFLMember.asNumericUpDown(fields, 3).Value
                     );
+
+                if (date.Year < 1900)
+					throw new Exception();
             }
 			catch (Exception)
 			{
 				throw new Exception("Некорректная дата");
 			}
 
-			var selected_gender = getFLMember.asComboBox(fields, 6).SelectedIndex;
+            if (date.Date.AddDays(2) >= DateTime.Today)
+                throw new Exception("Указанная дата ещё не наступила");
+
+            var selected_gender = getFLMember.asComboBox(fields, 6).SelectedIndex;
+			bool gender;
 			if (selected_gender == 1)
-				this.gender = true;
+				gender = true;
 			else if (selected_gender == 0)
-				this.gender = false;
+				gender = false;
 			else
 				throw new Exception("Укажите пол пациента");
+
+			this.f = f;
+			this.i = i;
+			this.o = o;
+			this.birthdate = date;
+			this.gender = gender;
 		}
 	}
 }

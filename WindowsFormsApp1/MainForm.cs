@@ -27,13 +27,24 @@ namespace WindowsFormsApp1 {
             this.labelPatientCount.Text = "0";
             this.labelProcedureCount.Text = "0";
             this.buttonClose.Enabled = false;
+            this.buttonSave.Enabled = false;
             this.menuItemFileClose.Enabled = false;
+            this.menuItemFileSave.Enabled = false;
+
         }
 
-        private void recalculateCounts()
+        private void updateFormElements()
         {
+            this.labelFileName.Text = this.data.currentFilePath;
+            if (this.labelFileName.Text.Length == 0)
+                this.labelFileName.Text = "(новый файл)";
+
             this.labelPatientCount.Text = this.data.tablePatients.Count.ToString();
-            this.labelProcedureCount.Text = this.data.tableUSPs.Count.ToString();
+            this.labelProcedureCount.Text = this.data.tableProcedures.Count.ToString();
+            this.buttonClose.Enabled = this.data.currentFilePath.Length != 0;
+            this.buttonSave.Enabled = this.data.dataModified;
+            this.menuItemFileClose.Enabled = this.buttonClose.Enabled;
+            this.menuItemFileSave.Enabled = this.buttonSave.Enabled;
         }
 
         private void menuItemAbout_Click(object sender, EventArgs e) {
@@ -59,11 +70,13 @@ namespace WindowsFormsApp1 {
             }
             catch (System.UnauthorizedAccessException)
             {
+                MessageBox.Show(this, "Не удалось открыть файл для записи:\n" + fname, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             
             var serializer = new XmlSerializer(typeof(DataStore));
             serializer.Serialize(writer, this.data);
+            writer.Close();
             return true;
         }
 
@@ -76,10 +89,14 @@ namespace WindowsFormsApp1 {
             }
             catch (System.UnauthorizedAccessException)
             {
+                MessageBox.Show(this, "Не удалось открыть файл для чтения:\n" + fname, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
             var serializer = new XmlSerializer(typeof(DataStore));
             this.data = (DataStore)serializer.Deserialize(reader);
+            this.data.dataModified = false;
+            this.data.currentFilePath = fname;
+            reader.Close();
             return true;
         }
 
@@ -99,57 +116,82 @@ namespace WindowsFormsApp1 {
             return fname;
         }
 
-        private void actionSwitchFile(string fname) {
-
+        private void actionSwitchFilename(string fname) {
             this.data.currentFilePath = fname;
             this.labelFileName.Text = fname.Substring(1 + fname.LastIndexOf('\\'));
         }
         private bool actionSwitchFileAndSave(string fname) {
             fname = cannonicalize(fname);
-            if (!this.actionWriteDataToFile(this.data.currentFilePath))
+            if (!this.actionWriteDataToFile(fname))
                 return false;
-            actionSwitchFile(fname);
+
+            actionSwitchFilename(fname);
+            this.data.dataModified = false;
+            updateFormElements();
             return true;
         }
         private bool actionSwitchFileAndRead(string fname) {
             fname = cannonicalize(fname);
-            if (!this.actionReadDataFromFile(this.data.currentFilePath))
+            if (!this.actionReadDataFromFile(fname))
                 return false;
-            actionSwitchFile(fname);
+            actionSwitchFilename(fname);
+            updateFormElements();
             return true;
         }
 
         private void menuItemFileSave_Click(object sender, EventArgs e) {
-            this.menuItemFileSave_Action();
+            this.actionSaveCurrent();
         }
-        private bool menuItemFileSave_Action() {
-            return this.actionWriteDataToFile(this.data.currentFilePath);
+        private bool hasSaveFilename()
+        {
+            return this.data.currentFilePath.Length != 0;
         }
 
-        private bool menuItemFileSaveAs_Action(object sender, EventArgs e) {
+        private bool actionSaveCurrent() {
+            if (!this.hasSaveFilename())
+                return this.actionSaveCurrentAs();
+
+            bool writeOk = this.actionWriteDataToFile(this.data.currentFilePath);
+            if (writeOk)
+            {
+                this.data.dataModified = false;
+                updateFormElements();
+            }
+
+            return writeOk;
+        }
+
+        private bool actionSaveCurrentAs() {
+            this.saveFileDialog1.FileName = "";
             if (this.saveFileDialog1.ShowDialog(this) != DialogResult.OK)
                 return false;
             return this.actionSwitchFileAndSave(this.saveFileDialog1.FileName);
         }
         private void menuItemFileSaveAs_Click(object sender, EventArgs e) {
+            this.actionSaveCurrentAs();
         }
 
-        private bool actionSaveUnchecked() {
+        private bool promptSaveIfModified() {
             if (!this.data.dataModified)
                 return true;
 
-            var promptResult = MessageBox.Show(this, "Внимание",
-                    "Имеются несохранённые изменения.\nЖелаете сохранить их?",
-                    MessageBoxButtons.YesNoCancel);
+            var promptResult = MessageBox.Show(this,
+                "Имеются несохранённые изменения.\nЖелаете сохранить их?",
+                "Внимание",
+                MessageBoxButtons.YesNoCancel
+            );
 
-            if (promptResult != DialogResult.OK)
-                return false;
+            if (promptResult == DialogResult.OK)
+                return this.actionSaveCurrent();
 
-            return this.menuItemFileSave_Action();
+            if (promptResult == DialogResult.No)
+                return true;
+
+            return false;
         }
 
         private void menuItemFileOpen_Click(object sender, EventArgs e) {
-            if (!this.actionSaveUnchecked())
+            if (!this.promptSaveIfModified())
                 return;
 
             if (this.openFileDialog1.ShowDialog() != DialogResult.OK)
@@ -165,7 +207,7 @@ namespace WindowsFormsApp1 {
         }
 
         private void menuItemFileNew_Click(object sender, EventArgs e) {
-            if (!this.actionSaveUnchecked())
+            if (!this.promptSaveIfModified())
                 return;
             this.actionNewFileUnchecked();
         }
@@ -175,7 +217,7 @@ namespace WindowsFormsApp1 {
             var f = new FormPatientTable(this.data);
             this.Hide();
             f.ShowDialog();
-            recalculateCounts();
+            updateFormElements();
             this.Show();
         }
 
@@ -184,8 +226,36 @@ namespace WindowsFormsApp1 {
             var f = new FormProcedureTable(this.data);
             this.Hide();
             f.ShowDialog();
-            recalculateCounts();
+            updateFormElements();
             this.Show();
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            this.actionSaveCurrent();
+        }
+
+        private void buttonSaveAs_Click(object sender, EventArgs e)
+        {
+            this.actionSaveCurrentAs();
+        }
+
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            if (!this.promptSaveIfModified())
+                return;
+            this.data = new DataStore();
+            updateFormElements();
+        }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            if (!this.promptSaveIfModified())
+                return;
+            this.openFileDialog1.FileName = "";
+            if (this.openFileDialog1.ShowDialog(this) != DialogResult.OK)
+                return;
+            actionSwitchFileAndRead(this.openFileDialog1.FileName);
         }
     }
 }

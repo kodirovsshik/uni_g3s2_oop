@@ -89,7 +89,7 @@ namespace WindowsFormsApp1
         }
         ListBoxItem createListBoxItem(ulong id)
         {
-            USP proc = this.data.tableUSPs[id];
+            USP proc = this.data.tableProcedures[id];
             string procType = this.comboBoxDataType.Items[proc.type].ToString();
             string procKind = this.comboBoxDataKind.Items[proc.kind].ToString();
             string date = proc.procedureDate.ToString("dd.MM.yyyy");
@@ -119,14 +119,20 @@ namespace WindowsFormsApp1
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            //if (this.procedures.Contains(this.currentProcedure))
-            //TODO
+            if (this.currentProcedureID == ulong.MaxValue || this.currentPatientID == ulong.MaxValue)
+                return;
+
+            this.procedures.Remove(this.currentProcedureID);
+            this.data.tableProcedures.Remove(this.currentProcedureID);
+            this.data.tablePatientsToUSPs[this.currentPatientID].Remove(this.currentProcedureID);
+            this.clearCurrentProcedure();
+            this.displayTable();
         }
 
         private void pickProcedure(ulong id)
         {
             this.currentProcedureID = id;
-            this.editee = this.data.tableUSPs[id];
+            this.editee = this.data.tableProcedures[id];
 
             this.textBoxDataDateD.Text = editee.procedureDate.Day.ToString();
             this.comboBoxDataDateM.SelectedIndex = editee.procedureDate.Month - 1;
@@ -164,7 +170,7 @@ namespace WindowsFormsApp1
                     int.Parse(this.textBoxDataDateD.Text)
                 );
             }
-            catch (System.Exception)
+            catch (Exception)
             {
                 MessageBox.Show(this, "Некорректная дата", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -172,14 +178,18 @@ namespace WindowsFormsApp1
 
             try
             {
-                if (int.Parse(this.textBoxDataDateY.Text) < 1900)
-                    throw new System.Exception("Некорректная дата");
+                if (date.Year < 1900)
+                    throw new Exception("Некорректная дата");
                 if (this.comboBoxDataKind.SelectedIndex == -1)
-                    throw new System.Exception("Выберите вид исследования");
+                    throw new Exception("Выберите вид исследования");
                 if (this.comboBoxDataType.SelectedIndex == -1)
-                    throw new System.Exception("Выберите тип исследования");
+                    throw new Exception("Выберите тип исследования");
+                if (date < this.data.tablePatients[this.currentPatientID].birthdate)
+                    throw new Exception("Указанная дата предшествует рождению пациента");
+                if (date.AddDays(2) >= DateTime.Today)
+                    throw new Exception("Указанная дата ещё не наступила");
             }
-            catch (System.Exception excp)
+            catch (Exception excp)
             {
                 MessageBox.Show(this, excp.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -200,7 +210,7 @@ namespace WindowsFormsApp1
             if (this.currentProcedureID == ulong.MaxValue)
             {
                 this.currentProcedureID = this.data.newProcedureID();
-                this.data.tableUSPs.Add(this.currentProcedureID, this.editee);
+                this.data.tableProcedures.Add(this.currentProcedureID, this.editee);
                 this.data.tablePatientsToUSPs[this.currentPatientID].Add(this.currentProcedureID);
                 newDisplayIndex = this.listBox1.Items.Count;
             }

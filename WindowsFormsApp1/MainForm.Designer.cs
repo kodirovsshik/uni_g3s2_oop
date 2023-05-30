@@ -40,7 +40,6 @@ namespace WindowsFormsApp1
             this.menuItemFileClose = new System.Windows.Forms.MenuItem();
             this.menuItemFileSave = new System.Windows.Forms.MenuItem();
             this.menuItemFileSaveAs = new System.Windows.Forms.MenuItem();
-            this.menuItemFileSaveCopyAs = new System.Windows.Forms.MenuItem();
             this.menuItemAbout = new System.Windows.Forms.MenuItem();
             this.menuItemExit = new System.Windows.Forms.MenuItem();
             this.labelFileName = new System.Windows.Forms.Label();
@@ -50,23 +49,24 @@ namespace WindowsFormsApp1
             this.labelProcedureCount = new System.Windows.Forms.Label();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.buttonSaveAs = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.buttonOpenTablePatient = new System.Windows.Forms.Button();
             this.buttonOpenTablePrcedure = new System.Windows.Forms.Button();
-            this.openFileDialog2 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // openFileDialog1
             // 
+            this.openFileDialog1.DefaultExt = "xml";
             this.openFileDialog1.Filter = "XML files|*.xml";
+            this.openFileDialog1.Title = "Укажите файл с данными";
             // 
             // saveFileDialog1
             // 
             this.saveFileDialog1.DefaultExt = "xml";
             this.saveFileDialog1.Filter = "XML files|*.xml";
             this.saveFileDialog1.InitialDirectory = ".";
+            this.saveFileDialog1.Title = "Укажите файл для сохранения данных";
             // 
             // labelTextFileName
             // 
@@ -93,8 +93,7 @@ namespace WindowsFormsApp1
             this.menuItemFileOpen,
             this.menuItemFileClose,
             this.menuItemFileSave,
-            this.menuItemFileSaveAs,
-            this.menuItemFileSaveCopyAs});
+            this.menuItemFileSaveAs});
             this.menuItemFile.Text = "Файл";
             // 
             // menuItemFileNew
@@ -125,12 +124,6 @@ namespace WindowsFormsApp1
             this.menuItemFileSaveAs.Index = 4;
             this.menuItemFileSaveAs.Text = "Сохранить как";
             this.menuItemFileSaveAs.Click += new System.EventHandler(this.menuItemFileSaveAs_Click);
-            // 
-            // menuItemFileSaveCopyAs
-            // 
-            this.menuItemFileSaveCopyAs.Index = 5;
-            this.menuItemFileSaveCopyAs.Text = "Сохранить копию";
-            this.menuItemFileSaveCopyAs.Click += new System.EventHandler(this.menuItemFileSaveCopyAs_Click);
             // 
             // menuItemAbout
             // 
@@ -170,9 +163,9 @@ namespace WindowsFormsApp1
             this.labelTextProcedureCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelTextProcedureCount.Location = new System.Drawing.Point(12, 164);
             this.labelTextProcedureCount.Name = "labelTextProcedureCount";
-            this.labelTextProcedureCount.Size = new System.Drawing.Size(180, 20);
+            this.labelTextProcedureCount.Size = new System.Drawing.Size(217, 20);
             this.labelTextProcedureCount.TabIndex = 3;
-            this.labelTextProcedureCount.Text = "Количество процедур:";
+            this.labelTextProcedureCount.Text = "Количество исследований:";
             // 
             // labelPatientCount
             // 
@@ -188,7 +181,7 @@ namespace WindowsFormsApp1
             // 
             this.labelProcedureCount.AutoSize = true;
             this.labelProcedureCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelProcedureCount.Location = new System.Drawing.Point(198, 164);
+            this.labelProcedureCount.Location = new System.Drawing.Point(227, 164);
             this.labelProcedureCount.Name = "labelProcedureCount";
             this.labelProcedureCount.Size = new System.Drawing.Size(21, 20);
             this.labelProcedureCount.TabIndex = 5;
@@ -197,59 +190,53 @@ namespace WindowsFormsApp1
             // buttonOpen
             // 
             this.buttonOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonOpen.Location = new System.Drawing.Point(16, 42);
+            this.buttonOpen.Location = new System.Drawing.Point(38, 47);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(102, 34);
             this.buttonOpen.TabIndex = 6;
             this.buttonOpen.Text = "Открыть";
             this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // buttonSave
             // 
             this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonSave.Location = new System.Drawing.Point(232, 42);
+            this.buttonSave.Location = new System.Drawing.Point(254, 47);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(102, 34);
             this.buttonSave.TabIndex = 7;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // button3
+            // buttonSaveAs
             // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button3.Location = new System.Drawing.Point(340, 42);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(118, 34);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "Сохранить как";
-            this.button3.UseVisualStyleBackColor = true;
+            this.buttonSaveAs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonSaveAs.Location = new System.Drawing.Point(362, 47);
+            this.buttonSaveAs.Name = "buttonSaveAs";
+            this.buttonSaveAs.Size = new System.Drawing.Size(118, 34);
+            this.buttonSaveAs.TabIndex = 8;
+            this.buttonSaveAs.Text = "Сохранить как";
+            this.buttonSaveAs.UseVisualStyleBackColor = true;
+            this.buttonSaveAs.Click += new System.EventHandler(this.buttonSaveAs_Click);
             // 
             // buttonClose
             // 
             this.buttonClose.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonClose.Location = new System.Drawing.Point(124, 42);
+            this.buttonClose.Location = new System.Drawing.Point(146, 47);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(102, 34);
             this.buttonClose.TabIndex = 9;
             this.buttonClose.Text = "Закрыть";
             this.buttonClose.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.button1.Location = new System.Drawing.Point(464, 42);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(138, 34);
-            this.button1.TabIndex = 10;
-            this.button1.Text = "Сохранить копию";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonOpenTablePatient
             // 
             this.buttonOpenTablePatient.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOpenTablePatient.Location = new System.Drawing.Point(263, 118);
             this.buttonOpenTablePatient.Name = "buttonOpenTablePatient";
-            this.buttonOpenTablePatient.Size = new System.Drawing.Size(261, 34);
+            this.buttonOpenTablePatient.Size = new System.Drawing.Size(231, 34);
             this.buttonOpenTablePatient.TabIndex = 11;
             this.buttonOpenTablePatient.Text = "Открыть таблицу пациентов";
             this.buttonOpenTablePatient.UseVisualStyleBackColor = true;
@@ -260,24 +247,19 @@ namespace WindowsFormsApp1
             this.buttonOpenTablePrcedure.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonOpenTablePrcedure.Location = new System.Drawing.Point(263, 158);
             this.buttonOpenTablePrcedure.Name = "buttonOpenTablePrcedure";
-            this.buttonOpenTablePrcedure.Size = new System.Drawing.Size(261, 34);
+            this.buttonOpenTablePrcedure.Size = new System.Drawing.Size(231, 34);
             this.buttonOpenTablePrcedure.TabIndex = 12;
-            this.buttonOpenTablePrcedure.Text = "Открыть таблицу процедур";
+            this.buttonOpenTablePrcedure.Text = "Открыть таблицу исследований";
             this.buttonOpenTablePrcedure.UseVisualStyleBackColor = true;
             this.buttonOpenTablePrcedure.Click += new System.EventHandler(this.buttonOpenTablePrcedure_Click);
             // 
-            // openFileDialog2
-            // 
-            this.openFileDialog2.FileName = "openFileDialog2";
-            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(619, 223);
+            this.ClientSize = new System.Drawing.Size(509, 223);
             this.Controls.Add(this.buttonOpenTablePrcedure);
             this.Controls.Add(this.buttonOpenTablePatient);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.buttonClose);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.buttonSaveAs);
             this.Controls.Add(this.buttonSave);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.labelProcedureCount);
@@ -314,14 +296,11 @@ namespace WindowsFormsApp1
         private System.Windows.Forms.Label labelProcedureCount;
         private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button buttonSaveAs;
         private System.Windows.Forms.MenuItem menuItemFileClose;
         private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.MenuItem menuItemFileSaveCopyAs;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button buttonOpenTablePatient;
         private System.Windows.Forms.Button buttonOpenTablePrcedure;
-        private System.Windows.Forms.OpenFileDialog openFileDialog2;
     }
 }
 

@@ -63,9 +63,9 @@ namespace WindowsFormsApp1
 				ulong id;
 				if (!ulong.TryParse(this.textBoxSearchProcedureID.Text, out id))
 					return;
-				if (!this.data.tableUSPs.ContainsKey(id))
+				if (!this.data.tableProcedures.ContainsKey(id))
 					return;
-				ulong patientId = this.data.tableUSPs[id].patientId;
+				ulong patientId = this.data.tableProcedures[id].patientId;
 				if (!oldSLice.Contains(patientId))
 					return;
 				newSlice.Add(patientId);

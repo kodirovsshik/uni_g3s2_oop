@@ -69,9 +69,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.label1.Location = new System.Drawing.Point(13, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(154, 17);
+            this.label1.Size = new System.Drawing.Size(88, 17);
             this.label1.TabIndex = 2;
-            this.label1.Text = "ID пациента или ФИО";
+            this.label1.Text = "ID пациента";
             // 
             // listBox1
             // 
